@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: '5%',
     fontSize: 48,
     textAlign: 'center',
-    marginBottom: 30,
+    marginBottom: 50,
     color: '#5C5C5C',
   },
   buttonGroup: {
