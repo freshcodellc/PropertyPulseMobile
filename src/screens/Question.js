@@ -51,7 +51,7 @@ export default function Question(props) {
   return (
     <View style={styles.container}>
       {!isEmpty(kiosk) && (
-        <View>
+        <View style={styles.inner}>
           <Text style={styles.instructions}>{kiosk.question.text}</Text>
           <View style={styles.buttonGroup}>
             <TouchableOpacity
@@ -77,11 +77,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  inner: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: '15%',
   },
   instructions: {
+    paddingHorizontal: '5%',
     fontSize: 48,
     textAlign: 'center',
     marginBottom: 30,
@@ -89,17 +92,18 @@ const styles = StyleSheet.create({
   },
   buttonGroup: {
     flexDirection: 'row',
-    height: 150,
+    justifyContent: 'space-around',
+    height: '50%',
+    width: '100%',
   },
   button: {
-    flex: 1,
-    position: 'relative',
     alignItems: 'center',
     justifyContent: 'center',
+    width: '30%',
   },
   icon: {
-    flex: 1,
     resizeMode: 'contain',
-    width: 150,
+    height: '100%',
+    width: '100%',
   },
 });
