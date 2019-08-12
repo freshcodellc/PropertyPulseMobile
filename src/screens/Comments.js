@@ -13,6 +13,8 @@ import {
 import axios from 'axios';
 import isEmpty from 'lodash/isEmpty';
 
+import { apiGateway, apiTimeout } from '../config'
+
 export default function Comments(props) {
   const [comments, setComments] = useState();
 
@@ -23,12 +25,13 @@ export default function Comments(props) {
       try {
         const token = await AsyncStorage.getItem('TOKEN');
         const result = await axios.post(
-          'https://6gg2aphawd.execute-api.us-east-1.amazonaws.com/prod/response',
+          `${apiGateway}/v1/response`,
           payload,
           {
             headers: {
               Authorization: token,
             },
+            timeout: apiTimeout
           }
         );
         props.navigation.navigate('Success');

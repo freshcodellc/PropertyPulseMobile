@@ -1,24 +1,49 @@
 {
+  "backend": {
+    "api": {
+      "gateway": "https://6gg2aphawd.execute-api.us-east-1.amazonaws.com/prod",
+      "timeout": 30000
+    }
+  },
   "expo": {
-    "name": "Property Pulse App",
-    "slug": "PropertyPulseMobile",
+    "name": "Property Pulse",
+    "slug": "property-pulse-kiosk",
+    "description": "kiosk app component for the Property Pulse suite",
     "privacy": "public",
-    "sdkVersion": "33.0.0",
-    "platforms": ["ios", "android", "web"],
+    "sdkVersion": "34.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "version": "1.0.0",
     "orientation": "landscape",
     "icon": "./assets/icon.png",
+    "primaryColor": "#22A08F",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 30000
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "android": {
+      "versionCode": 1,
+      "package": "com.getpropertypulse.kiosk",
+      "permissions": [
+        "READ_PHONE_STATE"
+      ]
+    },
     "ios": {
-      "supportsTablet": true
+      "buildNumber": "1",
+      "supportsTablet": true,
+      "bundleIdentifier": "com.getpropertypulse.kiosk"
     }
   }
 }

@@ -3,6 +3,8 @@ import { AsyncStorage, Image, StyleSheet, Text, TouchableOpacity, View } from 'r
 import axios from 'axios';
 import isEmpty from 'lodash/isEmpty';
 
+import { apiGateway, apiTimeout } from '../config'
+
 export default function Question(props) {
   const [kiosk, setKiosk] = useState({});
 
@@ -10,8 +12,11 @@ export default function Question(props) {
     const fetchData = async () => {
       const token = await AsyncStorage.getItem('TOKEN');
       const result = await axios.get(
-        'https://6gg2aphawd.execute-api.us-east-1.amazonaws.com/prod/kiosk',
-        { headers: { Authorization: token } }
+        `${apiGateway}/v1/kiosk`,
+        {
+          headers: { Authorization: token },
+          timeout: apiTimeout
+        }
       );
 
       setKiosk(result.data);
@@ -31,12 +36,13 @@ export default function Question(props) {
       try {
         const token = await AsyncStorage.getItem('TOKEN');
         const result = await axios.post(
-          'https://6gg2aphawd.execute-api.us-east-1.amazonaws.com/prod/response',
+          `${apiGateway}/v1/response`,
           payload,
           {
             headers: {
               Authorization: token,
             },
+            timeout: apiTimeout
           }
         );
         props.navigation.navigate('Success');

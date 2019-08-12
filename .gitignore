@@ -1,6 +1,3 @@
-node_modules/**/*
-.expo/*
-npm-debug.*
 *.jks
 *.p12
 *.key
@@ -8,3 +5,13 @@ npm-debug.*
 *.orig.*
 web-build/
 web-report/
+
+# Packaging Directories
+node_modules/**/*
+npm-debug.*
+package-lock.json
+yarn.lock
+
+# Expo Directories
+.expo/
+run/

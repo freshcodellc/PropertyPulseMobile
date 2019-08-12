@@ -1,27 +1,51 @@
 import React, { useState } from 'react';
-import { AsyncStorage, TextInput, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { AsyncStorage, Alert, TextInput, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import axios from 'axios';
 
-export default function Provision(props) {
-  const [provisionCode, setProvisionCode] = useState();
+import { apiGateway, apiTimeout } from '../config'
 
-  const handleSubmit = async provisionCode => {
+export default function Provision({ navigation }) {
+  const [provisionCode, setProvisionCode] = useState()
+
+  const handleSubmit = provisionCode => {
     if (provisionCode && provisionCode.length) {
-      const response = await axios.post(
-        'https://6gg2aphawd.execute-api.us-east-1.amazonaws.com/prod/provision',
-        {
-          provisionCode,
+      const pReqConfig = {
+        url: `${apiGateway}/v1/provision`,
+        data: { provisionCode },
+        timeout: apiTimeout,
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
         }
-      );
-
-      try {
-        await AsyncStorage.setItem('TOKEN', response.data.jwt);
-        props.navigation.navigate('App');
-      } catch (e) {
-        console.log('Error storing token');
       }
+
+      console.log('PROVISION REQUEST', { request: pReqConfig })
+
+      axios(pReqConfig)
+        .then((response) => {
+          console.log('PROVISION RESPONSE', { response })
+          return AsyncStorage.setItem('TOKEN', response.data.jwt)
+        })
+        .then((result) => {
+          console.log('STORAGE RESULT', { result })
+          navigation.navigate('App')
+        })
+        .catch((error) => {
+          console.log('PROVISION FAILURE', { error })
+          Alert.alert(
+            'Error',
+            `An error occurred while provisioning this device. API Error: [${error}]`,
+            [{ text: 'Try Again', onPress: () => navigation.navigate('AuthLoading') }],
+            { cancelable: false })
+        })
+    } else {
+      Alert.alert(
+        'Provision Code Required',
+        'A provision code is required in order to activate this device.',
+        [{ text: 'OK', onPress: () => console.log('DISMISSED PROVISION ALERT') }],
+        { cancelable: false })
     }
-  };
+  }
 
   return (
     <View style={styles.container}>
