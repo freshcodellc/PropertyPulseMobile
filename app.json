@@ -38,12 +38,19 @@
       "package": "com.getpropertypulse.kiosk",
       "permissions": [
         "READ_PHONE_STATE"
-      ]
+      ],
+      "publishBundlePath": "android/app/src/main/assets/shell-app.bundle",
+      "publishManifestPath": "android/app/src/main/assets/shell-app-manifest.json"
     },
     "ios": {
       "buildNumber": "1",
       "supportsTablet": true,
       "bundleIdentifier": "com.getpropertypulse.kiosk"
-    }
+    },
+    "isDetached": true,
+    "detach": {
+      "androidExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/android-v2.12.2-sdk34.0.0-767c7d3b-87b6-4f80-a9af-92ce67e2a49d.tar.gz"
+    },
+    "scheme": "exp0a4be568f95c455a9ea3c751e636e432"
   }
 }
