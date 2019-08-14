@@ -1,28 +1,45 @@
-import { createSwitchNavigator, createStackNavigator, createAppContainer } from 'react-navigation';
-import AuthLoadingScreen from './screens/AuthLoadingScreen';
-import Comments from './screens/Comments';
-import Provision from './screens/Provision';
-import Question from './screens/Question';
-import Success from './screens/Success';
+import {
+  createAppContainer,
+  createStackNavigator,
+  createSwitchNavigator
+} from 'react-navigation'
 
-// Implementation of HomeScreen, OtherScreen, SignInScreen, AuthLoadingScreen
-// goes here.
+import AuthLoading from './screens/AuthLoadingScreen'
+import Comments from './screens/CommentsScreen'
+import Provision from './screens/ProvisionScreen'
+import Question from './screens/QuestionScreen'
+import Success from './screens/SuccessScreen'
 
 const AppStack = createStackNavigator(
-  { Home: Question, Comments: Comments, Success: Success },
-  { headerMode: 'none', navigationOptions: { header: null } }
-);
-const AuthStack = createStackNavigator({ Provision: Provision });
+  {
+    Home: Question,
+    Comments,
+    Success
+  },
+  {
+    headerMode: 'none'
+  }
+)
 
-export default createAppContainer(
-  createSwitchNavigator(
-    {
-      AuthLoading: AuthLoadingScreen,
-      App: AppStack,
-      Auth: AuthStack,
-    },
-    {
-      initialRouteName: 'AuthLoading',
-    }
-  )
-);
+const AuthStack = createStackNavigator(
+  {
+    Provision
+  },
+  {
+    headerMode: 'none'
+  }
+)
+
+const SwitchNavigator = createSwitchNavigator(
+  {
+    App: AppStack,
+    Auth: AuthStack,
+    AuthLoading
+  },
+  {
+    headerMode: 'none',
+    initialRouteName: 'AuthLoading'
+  }
+)
+
+export default createAppContainer(SwitchNavigator)

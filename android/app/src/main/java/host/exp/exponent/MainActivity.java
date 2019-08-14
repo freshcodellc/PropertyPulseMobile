@@ -1,6 +1,7 @@
 package host.exp.exponent;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.facebook.react.ReactPackage;
 
@@ -42,5 +43,32 @@ public class MainActivity extends DetachActivity {
   public Bundle initialProps(Bundle expBundle) {
     // Add extra initialProps here
     return expBundle;
+  }
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    hideAndroidSystemUI();
+  }
+
+  @Override
+  public void onWindowFocusChanged(boolean hasFocus) {
+    super.onWindowFocusChanged(hasFocus);
+    if (hasFocus) {
+      hideAndroidSystemUI();
+    }
+  }
+
+  // use Android immersive sticky mode
+  // refer to: https://developer.android.com/training/system-ui/immersive.html
+  private void hideAndroidSystemUI() {
+    View decorView = getWindow().getDecorView();
+    decorView.setSystemUiVisibility(
+            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            | View.SYSTEM_UI_FLAG_FULLSCREEN);
   }
 }

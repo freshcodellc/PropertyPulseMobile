@@ -15,7 +15,7 @@ import isEmpty from 'lodash/isEmpty';
 
 import { apiGateway, apiTimeout } from '../config'
 
-export default function Comments(props) {
+export default function CommentsScreen(props) {
   const [comments, setComments] = useState();
 
   const handleSubmit = async userComments => {
