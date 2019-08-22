@@ -1,4 +1,5 @@
-import { backend } from '../app.json'
-
-export const apiGateway = backend.api.gateway
-export const apiTimeout = backend.api.timeout
+/**
+ * App Configuration
+ */
+export const apiGateway = 'https://6gg2aphawd.execute-api.us-east-1.amazonaws.com/prod'
+export const apiTimeout = 30000

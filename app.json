@@ -1,10 +1,4 @@
 {
-  "backend": {
-    "api": {
-      "gateway": "https://6gg2aphawd.execute-api.us-east-1.amazonaws.com/prod",
-      "timeout": 30000
-    }
-  },
   "expo": {
     "name": "Property Pulse",
     "slug": "property-pulse-kiosk",
@@ -34,7 +28,7 @@
       "**/*"
     ],
     "android": {
-      "versionCode": 2,
+      "versionCode": 5,
       "package": "com.getpropertypulse.kiosk",
       "permissions": [
         "READ_PHONE_STATE"
@@ -43,7 +37,7 @@
       "publishManifestPath": "android/app/src/main/assets/shell-app-manifest.json"
     },
     "ios": {
-      "buildNumber": "2",
+      "buildNumber": "5",
       "supportsTablet": true,
       "bundleIdentifier": "com.getpropertypulse.kiosk"
     },

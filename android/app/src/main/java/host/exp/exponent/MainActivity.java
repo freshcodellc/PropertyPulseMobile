@@ -2,6 +2,7 @@ package host.exp.exponent;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.facebook.react.ReactPackage;
 
@@ -49,6 +50,7 @@ public class MainActivity extends DetachActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     hideAndroidSystemUI();
+    setScreenAlwaysOn();
   }
 
   @Override
@@ -70,5 +72,9 @@ public class MainActivity extends DetachActivity {
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
             | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_FULLSCREEN);
+  }
+
+  private void setScreenAlwaysOn() {
+    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
   }
 }

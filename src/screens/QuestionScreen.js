@@ -55,7 +55,7 @@ const FeedbackButton = ({ onPress, source }) => (
   </Button>
 )
 
-export default function QuestionScreen(props) {
+export default function QuestionScreen (props) {
   const [kiosk, setKiosk] = useState({})
 
   useEffect(() => {

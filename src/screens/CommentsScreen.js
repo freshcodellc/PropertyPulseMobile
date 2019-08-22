@@ -1,113 +1,121 @@
-import React, { useState } from 'react';
-import {
-  AsyncStorage,
-  KeyboardAvoidingView,
-  Keyboard,
-  TextInput,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
-import axios from 'axios';
-import isEmpty from 'lodash/isEmpty';
+import React, { useState } from 'react'
+import styled from 'styled-components/native'
+import { AsyncStorage, Keyboard, TouchableWithoutFeedback, View } from 'react-native'
+import isEmpty from 'lodash/isEmpty'
+import axios from 'axios'
 
 import { apiGateway, apiTimeout } from '../config'
 
-export default function CommentsScreen(props) {
-  const [comments, setComments] = useState();
+const Button = styled.TouchableOpacity`
+  align-self: center;
+  border-radius: 4;
+  padding-top: 10;
+  padding-left: 10;
+  padding-right: 10;
+  padding-bottom: 10;
+  background-color: #14BF6F;
+`
 
-  const handleSubmit = async userComments => {
-    const payload = props.navigation.getParam('response', {});
-    if (!isEmpty(payload)) {
-      payload.comments = userComments;
-      try {
-        const token = await AsyncStorage.getItem('TOKEN');
-        const result = await axios.post(
-          `${apiGateway}/v1/response`,
-          payload,
-          {
-            headers: {
-              Authorization: token,
-            },
-            timeout: apiTimeout
-          }
-        );
-        props.navigation.navigate('Success');
-      } catch (e) {
-        console.log('Error storing token', e);
-      }
+const ButtonLabel = styled.Text`
+  color: #FFFFFF;
+`
+
+const Container = styled.KeyboardAvoidingView.attrs({
+  behavior: 'padding',
+  enabled: true
+})`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  padding-right: 15%;
+  padding-left: 15%;
+`
+
+const FormGroup = styled.View`
+  margin-bottom: 30;
+  align-items: center;
+  justify-content: center;
+`
+
+const FormInput = styled.TextInput.attrs({
+  underlineColorAndroid: 'transparent',
+  placeholder: 'Share feedback here',
+  placeholderTextColor: '#9C9C9C',
+  keyboardType: 'default',
+  autoCapitalize: 'none',
+  returnKeyType: 'done',
+  numberOfLines: 4,
+  blurOnSubmit: true,
+  multiline: true,
+  editable: true
+})`
+  border-width: 2;
+  border-radius: 4;
+  border-color: #979797;
+  background-color: #FFFFFF;
+  padding-bottom: 10;
+  padding-right: 10;
+  padding-left: 10;
+  padding-top: 10;
+  width: 100%;
+`
+
+const Instructions = styled.Text`
+  margin-bottom: 30;
+  text-align: center;
+  font-size: 48;
+  color: #5C5C5C;
+`
+
+export default function CommentsScreen (props) {
+  const [comments, setComments] = useState()
+
+  const handleSubmit = userComments => {
+    const payload = props.navigation.getParam('response', {})
+    if (isEmpty(payload)) {
+      return
     }
-  };
+
+    payload.comments = userComments
+    AsyncStorage.getItem('TOKEN')
+      .then((token) => {
+        const reqConfig = {
+          url: `${apiGateway}/v1/response`,
+          headers: { Authorization: token },
+          timeout: apiTimeout,
+          method: 'post',
+          data: payload
+        }
+
+        console.log('TOKEN RETRIEVE RESULT', { token })
+        console.log('RESPONSE REQUEST', { request: reqConfig })
+        return axios(reqConfig)
+      })
+      .then((response) => console.log('RESPONSE REQUEST RESPONSE', { response }))
+      .catch((error) => console.log('RESPONSE REQUEST ERROR', { error }))
+
+    // Navigate to 'Success' regardless of the server response.
+    // The user will not be able to do anything further regardless
+    // of the server response. Log any errors to console and resume.
+    props.navigation.navigate('Success')
+  }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+      <Container>
         <View>
-          <Text style={styles.instructions}>Care to share how we can improve?</Text>
-          <View style={styles.inputGroup}>
-            <TextInput
-              editable
-              blurOnSubmit
-              style={styles.inputControl}
+          <Instructions>Care to share how we can improve?</Instructions>
+          <FormGroup>
+            <FormInput
               value={comments}
-              multiline
-              numberOfLines={4}
-              autoCapitalize="none"
-              keyboardType="default"
-              returnKeyType="done"
-              underlineColorAndroid="transparent"
-              onChangeText={value => setComments(value)}
-              placeholder="Share feedback here"
-              placeholderTextColor="#9C9C9C"
-            />
-          </View>
-          <TouchableOpacity style={styles.button} onPress={() => handleSubmit(comments)}>
-            <Text style={styles.lightText}>Submit</Text>
-          </TouchableOpacity>
+              onChangeText={value => setComments(value)} />
+          </FormGroup>
+          <Button onPress={() => handleSubmit(comments)}>
+            <ButtonLabel>Submit</ButtonLabel>
+          </Button>
         </View>
-      </KeyboardAvoidingView>
+      </Container>
     </TouchableWithoutFeedback>
-  );
+  )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: '15%',
-  },
-  instructions: {
-    fontSize: 48,
-    textAlign: 'center',
-    marginBottom: 30,
-    color: '#5C5C5C',
-  },
-  inputControl: {
-    borderWidth: 2,
-    borderColor: '#979797',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 4,
-    paddingHorizontal: 10,
-    paddingTop: 10,
-    paddingBottom: 10,
-    width: '100%',
-  },
-  inputGroup: {
-    marginBottom: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  button: {
-    borderRadius: 4,
-    padding: 10,
-    backgroundColor: '#14BF6F',
-    alignSelf: 'center',
-  },
-  lightText: {
-    color: '#FFFFFF',
-  },
-});

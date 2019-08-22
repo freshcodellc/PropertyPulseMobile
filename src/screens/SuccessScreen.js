@@ -41,7 +41,7 @@ export default function SuccessScreen (props) {
   return (
     <Container>
       <MemeContainer>
-        <MemeHolder source={MEME_THANK_YOU } />
+        <MemeHolder source={MEME_THANK_YOU} />
       </MemeContainer>
       <PrimaryText>Keep an eye out for our kiosks.</PrimaryText>
       <SecondaryText>(Most people vote weekly)</SecondaryText>

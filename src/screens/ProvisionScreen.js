@@ -69,7 +69,7 @@ const SubmitButton = ({ onPress, children }) => (
   </GreenButton>
 )
 
-export default function ProvisionScreen({ navigation }) {
+export default function ProvisionScreen ({ navigation }) {
   const [provisionCode, setProvisionCode] = useState()
 
   const handleSubmit = provisionCode => {
